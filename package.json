@@ -1,0 +1,29 @@
+{
+  "name": "hetic-devops-dspec-infra",
+  "version": "1.0.0",
+  "description": "DSpec infrastructure repository",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MisterAzix/hetic-devops-dspec-infra.git"
+  },
+  "keywords": [
+    "terraform",
+    "infrastructure",
+    "aws"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MisterAzix/hetic-devops-dspec-infra/issues"
+  },
+  "homepage": "https://github.com/MisterAzix/hetic-devops-dspec-infra#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^19.1.0",
+    "@commitlint/config-conventional": "^19.1.0",
+    "husky": "^9.0.11"
+  }
+}
