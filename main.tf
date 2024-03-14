@@ -78,3 +78,12 @@ resource "aws_ecr_repository" "repository" {
     scan_on_push = true
   }
 }
+resource "aws_docdb_cluster" "database" {
+  cluster_identifier      = "hetic-dspec-database"
+  engine                  = "docdb"
+  master_username         = "username"
+  master_password         = "password"
+  backup_retention_period = 5
+  preferred_backup_window = "07:00-09:00"
+  skip_final_snapshot     = true
+}
