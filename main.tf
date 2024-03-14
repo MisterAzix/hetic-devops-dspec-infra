@@ -9,8 +9,15 @@ terraform {
   required_version = ">= 1.2.0"
 }
 
-provider "aws" {
+data "aws_caller_identity" "current" {}
+
+locals {
+  account_id = data.aws_caller_identity.current.account_id
   region = "eu-west-3"
+}
+
+provider "aws" {
+  region = local.region
 }
 
 resource "aws_emr_cluster" "cluster" {
@@ -34,12 +41,31 @@ resource "aws_emr_cluster" "cluster" {
     instance_type  = "m5.xlarge"
   }
 
+  configurations_json = <<EOF
+  [
+    {
+      "Classification": "container-executor",
+      "Configurations": [
+        {
+          "Classification": "docker",
+          "Properties": {
+            "docker.privileged-containers.registries": "local,centos,${local.account_id}.dkr.ecr.${local.region}.amazonaws.com",
+            "docker.trusted.registries": "local,centos,${local.account_id}.dkr.ecr.${local.region}.amazonaws.com"
+          }
+        }
+      ],
+      "Properties": {}
+    }
+  ]
+EOF
+
   service_role = aws_iam_role.iam_emr_service_role.arn
 }
 
 resource "aws_ecr_repository" "repository" {
   name                 = "hetic-dspec-ecr-repository"
   image_tag_mutability = "MUTABLE"
+  force_delete         = true
 
   image_scanning_configuration {
     scan_on_push = true
