@@ -36,3 +36,12 @@ resource "aws_emr_cluster" "cluster" {
 
   service_role = aws_iam_role.iam_emr_service_role.arn
 }
+
+resource "aws_ecr_repository" "repository" {
+  name                 = "hetic-dspec-ecr-repository"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
