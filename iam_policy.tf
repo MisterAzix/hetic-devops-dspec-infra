@@ -148,3 +148,37 @@ resource "aws_iam_role_policy" "iam_emr_profile_policy" {
   role   = aws_iam_role.iam_emr_profile_role.id
   policy = data.aws_iam_policy_document.iam_emr_profile_policy.json
 }
+
+data "aws_iam_policy_document" "ecr_read_only_policy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetRepositoryPolicy",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:DescribeImages",
+      "ecr:BatchGetImage",
+      "ecr:GetLifecyclePolicy",
+      "ecr:GetLifecyclePolicyPreview",
+      "ecr:ListTagsForResource",
+      "ecr:DescribeImageScanFindings",
+    ]
+
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "ecr_read_only" {
+  name        = "AmazonEC2ContainerRegistryReadOnly"
+  description = "Provides read-only access to Amazon ECR resources."
+  policy      = data.aws_iam_policy_document.ecr_read_only_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "emr_profile_ecr_read_only" {
+  role       = aws_iam_instance_profile.emr_profile.role
+  policy_arn = aws_iam_policy.ecr_read_only.arn
+}
