@@ -14,10 +14,16 @@ data "aws_caller_identity" "current" {}
 locals {
   account_id = data.aws_caller_identity.current.account_id
   region = "eu-west-3"
+  public_key = file("~/.ssh/id_rsa.pub")
 }
 
 provider "aws" {
   region = local.region
+}
+
+resource "aws_key_pair" "key_pair" {
+  key_name   = "hetic-dspec-key"
+  public_key = local.public_key
 }
 
 resource "aws_emr_cluster" "cluster" {
@@ -30,6 +36,7 @@ resource "aws_emr_cluster" "cluster" {
     emr_managed_master_security_group = aws_security_group.allow_access.id
     emr_managed_slave_security_group  = aws_security_group.allow_access.id
     instance_profile                  = aws_iam_instance_profile.emr_profile.arn
+    key_name                          = aws_key_pair.key_pair.key_name
   }
 
   master_instance_group {
