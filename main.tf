@@ -56,8 +56,8 @@ resource "aws_emr_cluster" "cluster" {
         {
           "Classification": "docker",
           "Properties": {
-            "docker.privileged-containers.registries": "local,centos,${local.account_id}.dkr.ecr.${local.region}.amazonaws.com",
-            "docker.trusted.registries": "local,centos,${local.account_id}.dkr.ecr.${local.region}.amazonaws.com"
+            "docker.privileged-containers.registries": "local,centos,hetic-dspec-ecr-repository,${local.account_id}.dkr.ecr.${local.region}.amazonaws.com",
+            "docker.trusted.registries": "local,centos,hetic-dspec-ecr-repository,${local.account_id}.dkr.ecr.${local.region}.amazonaws.com"
           }
         }
       ],
