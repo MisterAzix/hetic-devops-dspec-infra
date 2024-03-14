@@ -1,5 +1,7 @@
 # 🧱 Hetic DSPEC Infrastructure 🧱
 
+Look at the [HETIC DSPEC application](https://github.com/MisterAzix/hetic-devops-dspec-app).
+
 ## 🚀 Deploy infrastructure 🚀
 1. Init Terraform dependencies
 ```bash
