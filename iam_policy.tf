@@ -118,6 +118,8 @@ data "aws_iam_policy_document" "iam_emr_profile_policy" {
       "cloudwatch:*",
       "dynamodb:*",
       "ec2:Describe*",
+      "ecr:GetAuthorizationToken",
+      "ecr:ListImages",
       "elasticmapreduce:Describe*",
       "elasticmapreduce:ListBootstrapActions",
       "elasticmapreduce:ListClusters",
